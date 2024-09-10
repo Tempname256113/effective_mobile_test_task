@@ -5,7 +5,6 @@ import("knex")
  * @returns { Promise<void> }
  */
 export const up = async (knex) => {
-    console.log('Running migration up');
     await knex.schema.createTable('products', (table) => {
         table.increments('id');
         table.uuid('plu').defaultTo(knex.raw('gen_random_uuid()')).unique().notNullable();
@@ -47,7 +46,6 @@ export const up = async (knex) => {
  * @returns { Promise<void> }
  */
 export const down = async (knex) => {
-    console.log('Running migration down');
     await knex.schema.dropTableIfExists('stocks');
     await knex.schema.dropTableIfExists('shops');
     await knex.schema.dropTableIfExists('products');
