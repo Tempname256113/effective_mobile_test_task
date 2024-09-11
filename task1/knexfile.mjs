@@ -1,4 +1,4 @@
-import {dbConfig} from './common/pg.config.mjs';
+import {dbConfig} from './common/db/pg.config.mjs';
 
 export default {
   migrations: {

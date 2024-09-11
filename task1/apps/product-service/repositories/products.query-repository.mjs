@@ -1,4 +1,4 @@
-import {db} from "../../../common/pg.config.mjs";
+import {db} from "../../../common/db/pg.config.mjs";
 
 export const productsQueryRepository = {
     async getShopById(shopId){
@@ -33,7 +33,7 @@ export const productsQueryRepository = {
         return query;
     },
 
-    async getProductStockByProductId(dto){
+    async getProductStockByProductIdAndShopId(dto){
         return db('stocks')
             .select('*')
             .where({

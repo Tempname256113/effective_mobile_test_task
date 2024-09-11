@@ -7,6 +7,6 @@ const fastify = Fastify({
 });
 
 fastify.register(fastifySensible);
-fastify.register(productsController, {prefix: '/products'})
+fastify.register(productsController, { prefix: '/products' });
 
-await fastify.listen({port: 3001});
+await fastify.listen({ port: 3001 });

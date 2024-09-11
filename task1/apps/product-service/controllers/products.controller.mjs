@@ -45,32 +45,21 @@ export const productsController = async (fastify, opts) => {
     });
 
     const productStockBaseSchema = {
-        body: {
-            type: 'object',
-            properties: {
-                productId: { type: 'number' },
-                stockQuantity: { type: 'number' },
-                orderQuantity: { type: 'number' },
-            },
-            required: ['productId', 'stockQuantity', 'orderQuantity'],
+        schema: {
+            body: {
+                type: 'object',
+                properties: {
+                    productId: { type: 'number' },
+                    shopId: { type: 'number' },
+                    stockQuantity: { type: 'number' },
+                    orderQuantity: { type: 'number' },
+                },
+                required: ['productId', 'stockQuantity', 'orderQuantity', 'shopId'],
+            }
         }
     }
 
-    fastify.post('/stock', {
-        schema: {
-            body: {
-                ...productStockBaseSchema.body,
-                properties: {
-                    ...productStockBaseSchema.body.properties,
-                    shopId: { type: 'number' }
-                },
-                required: [
-                    ...productStockBaseSchema.body.required,
-                    'shopId'
-                ],
-            }
-        }
-    }, async (request, reply) => {
+    fastify.post('/stock', productStockBaseSchema, async (request, reply) => {
         return productsService.createStockToProduct(request.body);
     });
 
@@ -92,15 +81,11 @@ export const productsController = async (fastify, opts) => {
         return productsQueryRepository.getProductStocks(request.query);
     });
 
-    fastify.patch('/stock/increase', {
-        schema: productStockBaseSchema
-    }, (request, reply) => {
-        return productsService.increaseStockToProduct(request.body);
+    fastify.patch('/stock/increase', productStockBaseSchema, (request, reply) => {
+        return productsService.increaseStockToProduct.apply(productsService, [request.body]);
     });
 
-    fastify.patch('/stock/decrease', {
-        schema: productStockBaseSchema
-    }, (request, reply) => {
-        return productsService.decreaseStockToProduct(request.body);
+    fastify.patch('/stock/decrease', productStockBaseSchema, (request, reply) => {
+        return productsService.decreaseStockToProduct.apply(productsService, [request.body]);
     });
 }

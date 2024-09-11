@@ -1,4 +1,6 @@
-import {db} from "../../../common/pg.config.mjs";
+import {db} from "../../../common/db/pg.config.mjs";
+
+const extractFirstElemFromArr = (arr) => arr[0];
 
 export const productsRepository = {
     async createProduct(productName){
@@ -6,7 +8,8 @@ export const productsRepository = {
             .insert({
                 name: productName
             })
-            .returning('*');
+            .returning('*')
+            .then(extractFirstElemFromArr);
     },
 
     async createShop(shopName){
@@ -14,7 +17,8 @@ export const productsRepository = {
             .insert({
                 name: shopName,
             })
-            .returning('*');
+            .returning('*')
+            .then(extractFirstElemFromArr);
     },
 
     async createStockToProduct(dto){
@@ -25,10 +29,11 @@ export const productsRepository = {
                 stock_quantity: dto.stockQuantity,
                 order_quantity: dto.orderQuantity
             })
-            .returning('*');
+            .returning('*')
+            .then(extractFirstElemFromArr);
     },
 
-    async _updateProductsStockAmount(dto, operation){
+    async _updateProductStockAmount(dto, operation){
         return db('stocks')
             .update({
                 stock_quantity: db.raw(`stock_quantity ${operation} ?`, [dto.stockQuantity]),
@@ -36,16 +41,18 @@ export const productsRepository = {
                 updated_at: new Date().toISOString()
             })
             .where({
-                product_id: dto.productId
+                product_id: dto.productId,
+                shop_id: dto.shopId,
             })
-            .returning('*');
+            .returning('*')
+            .then(extractFirstElemFromArr);
     },
 
     async increaseStockToProduct(dto){
-        return this._updateProductsStockAmount(dto, '+');
+        return this._updateProductStockAmount(dto, '+');
     },
 
     async decreaseStockToProduct(dto){
-        return this._updateProductsStockAmount(dto, '-');
+        return this._updateProductStockAmount(dto, '-');
     }
 }
