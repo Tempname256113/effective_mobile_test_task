@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/sensible": "^5.6.0",
+    "amqplib": "^0.10.4",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
     "knex": "^3.1.0",
