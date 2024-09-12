@@ -1,4 +1,4 @@
-import {dbConfig} from './common/db/pg.config.mjs';
+import {dbConfig} from './common/db/knex.config.mjs';
 
 export default {
   migrations: {

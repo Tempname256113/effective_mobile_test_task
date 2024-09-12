@@ -1,4 +1,4 @@
-import {db} from "../../../common/db/pg.config.mjs";
+import {db} from "../../../common/db/knex.config.mjs";
 
 export const productsQueryRepository = {
     async getShopById(shopId){
