@@ -15,47 +15,47 @@
 Данные денормализованы и приведены к 3 нормальной форме.
 
 Реализованы следующие endpoints:
-- Создание товара (POST /products, dtoSample = {
+- Создание товара (POST /products, dtoSample = ```{
     "productName": "some new name"
-})
+}```)
 
-- Создание остатка (POST /products/stock, dtoSample = {
+- Создание остатка (POST /products/stock, dtoSample = ```{
     "productId": 11,
     "shopId": 1,
     "stockQuantity": 10,
     "orderQuantity": 5
-})
+}```)
 
-- Увеличение остатка (PATCH /products/stock/increase, dtoSample = {
+- Увеличение остатка (PATCH /products/stock/increase, dtoSample = ```{
     "productId": 8,
     "shopId": 1,
     "stockQuantity": 10,
     "orderQuantity": 5
-})
+}```)
 
-- Уменьшение остатка (PATCH /products/stock/decrease, dtoSample = {
+- Уменьшение остатка (PATCH /products/stock/decrease, dtoSample = ```{
     "productId": 8,
     "shopId": 1,
     "stockQuantity": 10,
     "orderQuantity": 5
-})
+}```)
 
-- Получение остатков по фильтрам (GET /products/stock, dtoQuerySample = {
+- Получение остатков по фильтрам (GET /products/stock, dtoQuerySample = ```{
     "plu": "d949eeb7-f061-419a-997b-48fddebcb0fd",
     "shopId": 1,
     "stock_quantity_min": 5,
     "stock_quantity_max": 10,
     "order_quantity_min": 5,
     "order_quantity_max": 10
-})
+}```)
 
-- Получение товаров по фильтрам (GET /products, dtoQuerySample = {
+- Получение товаров по фильтрам (GET /products, dtoQuerySample = ```{
     "name": "some_name"
     "plu": "d949eeb7-f061-419a-997b-48fddebcb0fd",
-})
+}```)
 
 Другой сервис истории действий с товарами.
-В сервис “истории действий с товарами” отправляются все события, которые происходят с товарами или остатками. Общение сервисов происходит при помощи брокера сообщений rabbitmq. Сервис “истории действий с товарами или остатками” имеет endpoint, который отдает историю действий с фильтрами и постраничной навигацией (GET /products/history, dtoQuerySample = {
+В сервис “истории действий с товарами” отправляются все события, которые происходят с товарами или остатками. Общение сервисов происходит при помощи брокера сообщений rabbitmq. Сервис “истории действий с товарами или остатками” имеет endpoint, который отдает историю действий с фильтрами и постраничной навигацией (GET /products/history, dtoQuerySample = ```{
     "shop_id": 1,
     "plu": "b91a1c5d-0a4a-4cda-9e29-ed9cc14410ff",
     "date_after": "2024-09-11T14:52:49.195244Z", дата должна быть в формате ISO
@@ -63,7 +63,7 @@
     "action": "create_stock_to_product", всего есть несколько actions. это "create_product", "create_stock_to_product", "increase_product_stock" и  "decrease_product_stock"
     "page": 1,
     "limit": 10
-})
+}```)
 
 В качестве фрейморвка в обоих сервисах используется fastify. Оба сервиса написаны на чистом JS, СУБД - postgresql, query builder - knex, общение сервисов - rabbitmq
 
